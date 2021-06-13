@@ -59,38 +59,38 @@ int main (void)
 
 	/* Invalid FDs */
 	result = get_next_line(-4, &line);
-	test_string("Testing string with a fd of -4", NULL, line);
+	test_string("Test with a negative fd", NULL, line);
 	test_int("Returned value", -1, result);
 
 	result = get_next_line(8, &line);
-	test_string("Testing string with a fd of 8", NULL, line);
+	test_string("Test with a positive, not open fd", NULL, line);
 	test_int("Returned value", -1, result);
 
 	/* Empty file */
 	fd = open("files/empty.txt", O_RDONLY);
 	result = get_next_line(fd, &line);
-	test_string("Testing string with empty file", "", line);
+	test_string("Test with empty file", "", line);
 	test_int("Returned value", 0, result);
 	close(fd);
 
 	/* valid file with a single character */
 	fd = open("files/one_char.txt", O_RDONLY);
 	result = get_next_line(fd, &line);
-	test_string("Testing string with a file that has a single char", "a", line);
+	test_string("Test with a file that has a single char", "a", line);
 	test_int("Returned value", 0, result);
 	close(fd);
 
 	/* valid file with a single character, which is a \n */
 	fd = open("files/one_char_nl.txt", O_RDONLY);
 	result = get_next_line(fd, &line);
-	test_string("Testing string with a file that has a single char, which is a newline", "", line);
+	test_string("Test with a file that has a single char, which is a newline", "", line);
 	test_int("Returned value", 1, result);
 	close(fd);
 
 	/* valid file with a regular character and a \n */
 	fd = open("files/one_char_and_nl.txt", O_RDONLY);
 	result = get_next_line(fd, &line);
-	test_string("Testing string with a file that has a regular char and a newline", "a", line);
+	test_string("Test with a file that has a regular char and a newline", "a", line);
 	test_int("Returned value", 1, result);
 	close(fd);
 }
