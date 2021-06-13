@@ -1,0 +1,17 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Werror",
+      "-Wextra",
+      "-g",
+      "-I../",
+      "-DBUFFER_SIZE=42",
+      "-c",
+      "main.c"
+    ],
+    "directory": "/home/paulo/documents/42sp/course/projects/get_next_line/tests",
+    "file": "/home/paulo/documents/42sp/course/projects/get_next_line/tests/main.c"
+  }
+]
