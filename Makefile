@@ -14,7 +14,7 @@ BONUS_SRCS_FILES = get_next_line_bonus.c \
 				   get_next_line_utils_bonus.c
 
 SRCS = ${addprefix ${SRC_DIR}, ${SRCS_FILES}}
-BONUS_SRCS = ${MAIN_FILES} ${addprefix ${BONUS_SRCS_DIR}, ${BONUS_SRCS_FILES}}
+BONUS_SRCS = ${addprefix ${SRC_DIR}, ${BONUS_SRCS_FILES}}
 
 OBJS = ${SRCS:.c=.o}
 BONUS_OBJS = ${BONUS_SRCS:.c=.o}
@@ -23,11 +23,14 @@ BUFFER_SIZES = 32 9999 1 10000000 100000000
 
 CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
-CC = clang ${CFLAGS}
+CC = gcc ${CFLAGS}
 
-all: run
+all: m
 
-run: ${BUFFER_SIZES}
+m: ${BUFFER_SIZES}
+
+b: SRCS := ${BONUS_SRCS}
+b: ${BUFFER_SIZES}
 
 %.o: %.c
 	${CC} -I${SRC_DIR} -c $< -o $@
