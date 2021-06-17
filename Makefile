@@ -19,7 +19,7 @@ BONUS_SRCS = ${MAIN_FILES} ${addprefix ${BONUS_SRCS_DIR}, ${BONUS_SRCS_FILES}}
 OBJS = ${SRCS:.c=.o}
 BONUS_OBJS = ${BONUS_SRCS:.c=.o}
 
-BUFFER_SIZES = 32 9999 1 10000000
+BUFFER_SIZES = 32 9999 1 10000000 100000000
 
 CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
