@@ -1,0 +1,2 @@
+This file has a very very big line. Regardless of that, your program should be able to read it without major efforts. You'll probably figure out a way to read this whole line with whatever it is the BUFFER_SIZE;
+glhf

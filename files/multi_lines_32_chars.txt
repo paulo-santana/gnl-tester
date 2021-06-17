@@ -1,0 +1,5 @@
+These lines are exactly 33 chars
+long. The \n char is always the 
+33rd charactere. How does your -
+code behaves? Pretty good, I'm -
+sure. Keep up the good work, ok?

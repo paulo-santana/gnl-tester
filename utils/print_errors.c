@@ -20,7 +20,7 @@ void	explain_expected_diff(char expected[], char result[], unsigned int size)
 			ft_putstr(MAGENTA "\\0" RESET);
 		else if (expected[i] == '\n')
 			ft_putstr(MAGENTA "\\n" RESET);
-		else if (isprint(expected[i]))
+		else if (!isprint(expected[i]))
 			ft_putchar('*');
 		else
 			ft_putchar(expected[i]);
@@ -41,7 +41,7 @@ void	explain_expected_diff(char expected[], char result[], unsigned int size)
 		}
 		if (result[i] == '\0')
 			ft_putstr(BOLD MAGENTA "\\0" RESET);
-		else if (isprint(result[i]))
+		else if (!isprint(result[i]))
 			ft_putchar('*');
 		else
 			ft_putchar(result[i]);
