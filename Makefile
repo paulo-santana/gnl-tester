@@ -21,7 +21,7 @@ BONUS_OBJS = ${BONUS_SRCS:.c=.o}
 
 BUFFER_SIZES = 32 9999 1 10000000 100000000
 
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 
 CC = gcc ${CFLAGS}
 
@@ -37,18 +37,20 @@ b: ${BUFFER_SIZES}
 
 ${BUFFER_SIZES}: BUFFER_SIZE = $@
 ${BUFFER_SIZES}:
-	${CC} -I${SRC_DIR} -DBUFFER_SIZE=${BUFFER_SIZE} $% ${MAIN_FILES} ${SRCS} -o ${NAME}
-	./${NAME}
-	@./${NAME} 1
-	@./${NAME} 2
-	@./${NAME} 3
-	@./${NAME} 4
-	@./${NAME} 5
-	@./${NAME} 6
-	@./${NAME} 7
-	@./${NAME} 8
-	@./${NAME} 9
-	@./${NAME} 10
+	@${CC} -I${SRC_DIR} -DBUFFER_SIZE=${BUFFER_SIZE} $% ${MAIN_FILES} ${SRCS} -o ${NAME}
+	@echo ""
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME}
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 1
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 2
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 3
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 4
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 5
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 6
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 7
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 8
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 9
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 10
+	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 11
 
 clean:
 	${RM} ${OBJS}

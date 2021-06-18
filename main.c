@@ -6,15 +6,14 @@
 
 void print_success(char *desc, int success)
 {
-	ft_putstr("    ");
+	ft_putstr(" ");
 	if (success) {
-		ft_putstr(BOLD GREEN "OK " RESET);
-		ft_putstr(desc);
+		ft_putstr(BOLD GREEN "OK" RESET);
+		//ft_putstr(desc);
 	} else {
-		ft_putstr(BOLD RED "KO ");
+		ft_putstr(BOLD RED "    \nKO ");
 		ft_putstr(desc);
 	}
-	ft_putstr("\n");
 }
 
 void test_string(char *description, char *expected, char *got)
@@ -56,7 +55,6 @@ int main (int argc, char *argv[])
 		return (1);
 	}
 
-
 	char	*line = NULL;
 	int		result;
 	int		fd;
@@ -71,19 +69,24 @@ int main (int argc, char *argv[])
 
 	if (argc == 2)
 	{
+		ft_putstr(RESET BOLD);
+		ft_putstr(argv[0]);
+		ft_putstr(BLUE " ");
+		ft_putstr(argv[1]);
+		ft_putstr(RESET " ");
 		if (strcmp(argv[1], "1") == 0)
 		{
 			result = get_next_line(-4, &line);
 			test_string("Test with a negative fd", NULL, line);
 			test_int("Returned value", -1, result);
 		}
-		else if (strcmp(argv[1], "whatever_fd") == 0)
+		else if (strcmp(argv[1], "2") == 0)
 		{
 			result = get_next_line(8, &line);
 			test_string("Test with a positive, not open fd", NULL, line);
 			test_int("Returned value", -1, result);
 		}
-		else if (strcmp(argv[1], "2") == 0)
+		else if (strcmp(argv[1], "3") == 0)
 		{
 			fd = open("files/empty.txt", O_RDONLY);
 			result = get_next_line(fd, &line);
@@ -92,7 +95,7 @@ int main (int argc, char *argv[])
 			free(line);
 			close(fd);
 		}
-		else if (strcmp(argv[1], "3") == 0)
+		else if (strcmp(argv[1], "4") == 0)
 		{
 			/* valid file with a single character */
 			fd = open("files/one_char.txt", O_RDONLY);
@@ -102,7 +105,7 @@ int main (int argc, char *argv[])
 			free(line);
 			close(fd);
 		}
-		else if (strcmp(argv[1], "4") == 0)
+		else if (strcmp(argv[1], "5") == 0)
 		{
 			/* valid file with a single character, which is a \n */
 			fd = open("files/one_char_nl.txt", O_RDONLY);
@@ -110,10 +113,14 @@ int main (int argc, char *argv[])
 			test_string("Test with a file that has a single char, which is a \\n", "", line);
 			test_int("Returned value", 1, result);
 			free(line);
+			result = get_next_line(fd, &line);
+			test_string("Test with a file that has a single char, which is a \\n, EOF", "", line);
+			test_int("Returned value", 0, result);
+			free(line);
 			close(fd);
 
 		}
-		else if (strcmp(argv[1], "5") == 0)
+		else if (strcmp(argv[1], "6") == 0)
 		{
 			/* valid file with a regular character and a \n */
 			fd = open("files/one_char_and_nl.txt", O_RDONLY);
@@ -121,9 +128,13 @@ int main (int argc, char *argv[])
 			test_string("Test with a file that has a regular char and a \\n", "a", line);
 			test_int("Returned value", 1, result);
 			free(line);
+			result = get_next_line(fd, &line);
+			test_string("Test with a file that has a regular char and a \\n, EOF", "", line);
+			test_int("Returned value", 0, result);
+			free(line);
 			close(fd);
 		}
-		else if (strcmp(argv[1], "6") == 0)
+		else if (strcmp(argv[1], "7") == 0)
 		{
 			fd = open("files/29chars.txt", O_RDONLY);
 			result = get_next_line(fd, &line);
@@ -133,17 +144,21 @@ int main (int argc, char *argv[])
 			close(fd);
 
 		}
-		else if (strcmp(argv[1], "7") == 0)
+		else if (strcmp(argv[1], "8") == 0)
 		{
 			fd = open("files/29chars_nl.txt", O_RDONLY);
 			result = get_next_line(fd, &line);
-			test_string("Test with a multi character file with a \\n ", "i'm a file with 29 characters", line);
+			test_string("Test with a multi character file with a \\n", "i'm a file with 29 characters", line);
 			test_int("Returned value", 1, result);
+			free(line);
+			result = get_next_line(fd, &line);
+			test_string("Test with a multi character file with a \\n, EOF ", "", line);
+			test_int("Returned value", 0, result);
 			free(line);
 			close(fd);
 
 		}
-		else if (strcmp(argv[1], "8") == 0)
+		else if (strcmp(argv[1], "9") == 0)
 		{
 			fd = open("files/multi_lines.txt", O_RDONLY);
 			result = get_next_line(fd, &line);
@@ -180,7 +195,7 @@ int main (int argc, char *argv[])
 			free(line);
 			close(fd);
 		}
-		else if (strcmp(argv[1], "9") == 0)
+		else if (strcmp(argv[1], "10") == 0)
 		{
 			/* File with lines that are 33 chars, and the 33rd are \n */
 			fd = open("files/multi_lines_32_chars.txt", O_RDONLY);
@@ -210,7 +225,7 @@ int main (int argc, char *argv[])
 			free(line);
 			close(fd);
 		}
-		else if (strcmp(argv[1], "10") == 0)
+		else if (strcmp(argv[1], "11") == 0)
 		{
 			/* File with a big line */
 			fd = open("files/big_line.txt", O_RDONLY);
@@ -228,5 +243,6 @@ int main (int argc, char *argv[])
 			free(line);
 			close(fd);
 		}
+		ft_putstr("\n");
 	}
 }
