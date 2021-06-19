@@ -1,12 +1,10 @@
 NAME = test
+LIBNAME = libtest/libtest.a
 
 SRC_DIR = ../
 BONUS_DIR = ../
 
-MAIN_FILES = main.c \
-			 libtest/string.c \
-			 libtest/print_errors.c \
-			 libtest/diff.c
+MAIN_FILES = main.c
 
 SRCS_FILES = get_next_line.c \
 			 get_next_line_utils.c
@@ -22,9 +20,9 @@ BONUS_OBJS = ${BONUS_SRCS:.c=.o}
 
 BUFFER_SIZES = 32 9999 1 10000000
 
-VALGRIND = #valgrind -q --leak-check=full --show-leak-kinds=all
+VALGRIND = valgrind -q --leak-check=full --show-leak-kinds=all
 
-CFLAGS = -Wall -Werror -Wextra #-g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 
 CC = gcc ${CFLAGS}
 
@@ -40,14 +38,17 @@ b: print_test ${BUFFER_SIZES}
 %.o: %.c
 	${CC} -I${SRC_DIR} -c $< -o $@
 
-print_test:
+print_test: ${LIBNAME}
 	@echo ""
 	@echo Test: ${TEST}
+
+${LIBNAME}:
+	make -C libtest
 
 ${BUFFER_SIZES}: BUFFER_SIZE = $@
 ${BUFFER_SIZES}:
 	@echo ""
-	@${CC} -I${SRC_DIR} -DBUFFER_SIZE=${BUFFER_SIZE} $% ${MAIN_FILES} ${SRCS} -o ${NAME}
+	${CC} -I${SRC_DIR} -Llibtest -DBUFFER_SIZE=${BUFFER_SIZE} $% ${MAIN_FILES} ${SRCS} -o ${NAME} -ltest
 	@ ./${NAME}
 	@${VALGRIND} ./${NAME} 1
 	@${VALGRIND} ./${NAME} 2
