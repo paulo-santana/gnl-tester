@@ -5,7 +5,8 @@ BONUS_DIR = ../
 
 MAIN_FILES = main.c \
 			 utils/string.c \
-			 utils/print_errors.c
+			 utils/print_errors.c \
+			 utils/diff.c
 
 SRCS_FILES = get_next_line.c \
 			 get_next_line_utils.c
@@ -25,20 +26,26 @@ CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 
 CC = gcc ${CFLAGS}
 
-all: m
+all: m b
 
-m: ${BUFFER_SIZES}
+m: TEST = Mandatory
+m: print_test ${BUFFER_SIZES}
 
+b: TEST = Bonus
 b: SRCS := ${BONUS_SRCS}
-b: ${BUFFER_SIZES}
+b: print_test ${BUFFER_SIZES}
 
 %.o: %.c
 	${CC} -I${SRC_DIR} -c $< -o $@
 
+print_test:
+	@echo ""
+	@echo Test: ${TEST}
+
 ${BUFFER_SIZES}: BUFFER_SIZE = $@
 ${BUFFER_SIZES}:
-	@${CC} -I${SRC_DIR} -DBUFFER_SIZE=${BUFFER_SIZE} $% ${MAIN_FILES} ${SRCS} -o ${NAME}
 	@echo ""
+	@${CC} -I${SRC_DIR} -DBUFFER_SIZE=${BUFFER_SIZE} $% ${MAIN_FILES} ${SRCS} -o ${NAME}
 	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME}
 	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 1
 	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 2

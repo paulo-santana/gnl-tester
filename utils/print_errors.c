@@ -1,6 +1,6 @@
 #include "../libtest.h"
 
-void explain_expected_int(int expected, int result)
+void print_int_diff(int expected, int result)
 {
 	ft_putstr("        Expected: ");
 	ft_putnbr(expected);
@@ -9,7 +9,7 @@ void explain_expected_int(int expected, int result)
 	ft_putstr(RESET "\n");
 }
 
-void	explain_expected_diff(char expected[], char result[], unsigned int size)
+void	print_string_diff(char expected[], char result[], unsigned int size)
 {
 	int is_red_already = 0;
 

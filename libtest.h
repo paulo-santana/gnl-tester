@@ -28,7 +28,9 @@
 void ft_putchar(char c);
 void ft_putstr(char *str);
 void ft_putnbr(int nbr);
-void explain_expected_int(int expected, int result);
-void explain_expected_diff(char expected[], char result[], unsigned int size);
+void print_int_diff(int expected, int result);
+void print_string_diff(char expected[], char result[], unsigned int size);
+void test_string(char *description, char *expected, char *got);
+void test_int(char *description, int expected, int result);
 
 #endif
