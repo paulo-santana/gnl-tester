@@ -1,4 +1,4 @@
-#include "../libtest.h"
+#include "libtest.h"
 
 void print_success(char *desc, int success)
 {

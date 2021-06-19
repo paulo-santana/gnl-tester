@@ -1,4 +1,4 @@
-#include "../libtest.h"
+#include "libtest.h"
 
 void ft_putchar(char c)
 {

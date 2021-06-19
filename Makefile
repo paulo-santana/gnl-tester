@@ -4,9 +4,9 @@ SRC_DIR = ../
 BONUS_DIR = ../
 
 MAIN_FILES = main.c \
-			 utils/string.c \
-			 utils/print_errors.c \
-			 utils/diff.c
+			 libtest/string.c \
+			 libtest/print_errors.c \
+			 libtest/diff.c
 
 SRCS_FILES = get_next_line.c \
 			 get_next_line_utils.c
@@ -20,13 +20,15 @@ BONUS_SRCS = ${addprefix ${SRC_DIR}, ${BONUS_SRCS_FILES}}
 OBJS = ${SRCS:.c=.o}
 BONUS_OBJS = ${BONUS_SRCS:.c=.o}
 
-BUFFER_SIZES = 32 9999 1 10000000 100000000
+BUFFER_SIZES = 32 9999 1 10000000
 
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+VALGRIND = #valgrind -q --leak-check=full --show-leak-kinds=all
+
+CFLAGS = -Wall -Werror -Wextra #-g #-fsanitize=address
 
 CC = gcc ${CFLAGS}
 
-all: m b
+all: m
 
 m: TEST = Mandatory
 m: print_test ${BUFFER_SIZES}
@@ -46,18 +48,18 @@ ${BUFFER_SIZES}: BUFFER_SIZE = $@
 ${BUFFER_SIZES}:
 	@echo ""
 	@${CC} -I${SRC_DIR} -DBUFFER_SIZE=${BUFFER_SIZE} $% ${MAIN_FILES} ${SRCS} -o ${NAME}
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME}
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 1
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 2
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 3
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 4
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 5
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 6
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 7
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 8
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 9
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 10
-	@valgrind -q --leak-check=full --show-leak-kinds=all ./${NAME} 11
+	@ ./${NAME}
+	@${VALGRIND} ./${NAME} 1
+	@${VALGRIND} ./${NAME} 2
+	@${VALGRIND} ./${NAME} 3
+	@${VALGRIND} ./${NAME} 4
+	@${VALGRIND} ./${NAME} 5
+	@${VALGRIND} ./${NAME} 6
+	@${VALGRIND} ./${NAME} 7
+	@${VALGRIND} ./${NAME} 8
+	@${VALGRIND} ./${NAME} 9
+	@${VALGRIND} ./${NAME} 10
+	@${VALGRIND} ./${NAME} 11
 
 clean:
 	${RM} ${OBJS}
@@ -67,4 +69,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: ${NAME}
+.PHONY: ${NAME} ${BUFFER_SIZES} print_test

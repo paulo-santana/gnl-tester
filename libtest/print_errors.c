@@ -1,4 +1,4 @@
-#include "../libtest.h"
+#include "libtest.h"
 
 void print_int_diff(int expected, int result)
 {
